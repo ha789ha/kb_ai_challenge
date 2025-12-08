@@ -1,13 +1,15 @@
 <br>
 
-# 📌 단계별 멀티 에이전트 기반 금융 분쟁 민원 작성 어시스턴트
+# ⚖️ LawChain — AI 금융 분쟁 민원 도우미
 
 <br>
 
 ## 📘 프로젝트 소개
 
-본 프로젝트는 **금융 민원을 자동 분석하여 유사 판례 검색 → 쟁점 도출 → 보고서 생성까지 전 과정을 자동화**하는
-멀티 에이전트 기반 **AI 민원 작성 어시스턴트**입니다.
+**LawChain**은 금융 분쟁 해결에 어려움을 겪는 사용자를 위해, 복잡한 민원 처리 과정을 돕는 **AI 법률 어시스턴트**입니다.
+
+사용자의 상황을 바탕으로 **유사 판례를 검색** 후 챗봇과의 대화를 통해 **법적 쟁점**을 진단합니다. 최종적으로는 이를 통합한 **민원 작성 보고서**를 통해
+비전문가도 금융 분쟁 민원을 직접 작성할 수 있습니다.
 
 <br>
 
@@ -15,7 +17,6 @@
 
 * **기간:** 2025.07.07 ~ 2025.09.10
 * **공모전:** [7회 KB AI Challenge](https://kb-aichallenge.com/)
-* **목표:** 비전문가도 금융 분쟁 민원을 쉽게 제출할 수 있도록, 검색·진단·보고서를 자동 생성하는 상담형 AI 서비스 구축
 
 <br>
 
@@ -80,20 +81,78 @@
 
 <br>
 
+## 🛠️ 4. 프로젝트 구조 및 실행
 
-## 📁 4. 프로젝트 구조
+### 📂 Directory Structure
 
 ```bash
 LawChain/
 ├── app.py                  # Streamlit 메인 실행 파일
-├── crawling_data/          # 판례·상담 데이터 크롤링
-├── pre_processing/         # 전처리 & Query Rewriting
+├── crawling_data/          # 크롤링 결과 데이터 저장소 (자동 생성)
+├── pre_processing/         # 데이터 수집 및 전처리 스크립트
+│   ├── crawling.py         # 금융감독원 판례 크롤링
+│   └── naver_crawling_2.py # 네이버 eXpert QA 크롤링
 ├── summary/                # 판례 요약 에이전트
 ├── db/                     # 메타데이터 저장소
-├── faiss/                  # Vector DB
-├── model/                  # LLM 핸들러
+├── faiss/                  # Vector DB 저장소
+├── model/                  # LLM 및 API 설정
+│   ├── generation.py       # OpenAI API 설정
+│   └── google.py           # Google Search API 설정
 ├── report_layout/          # 민원 보고서 템플릿
-└── requirements.txt
+└── requirements.txt        # 의존성 패키지 목록
+```
+
+### 🚀 실행 방법 
+
+**1. 환경 설정**
+
+```bash
+# 1. Repository Clone
+git clone https://github.com/ha789ha/LawChain.git
+cd LawChain
+
+# 2. Conda Environment Create & Activate
+conda create -n lawchain python=3.10
+conda activate lawchain
+
+# 3. Install Dependencies
+pip install -r requirements.txt
+```
+
+**2. 데이터 수집**
+
+  * 아래 스크립트를 실행하면 `crawling_data/` 폴더에 데이터가 자동으로 수집 및 저장됩니다.
+
+<!-- end list -->
+
+```bash
+cd pre_processing
+python crawling.py          # 금융감독원 판례 수집
+python naver_crawling_2.py  # 네이버 QA 데이터 수집
+cd ..
+```
+
+**3. API 키 설정 (Configuration)**
+
+  * **OpenAI API Key 설정:** `model/generation.py`
+
+    ```python
+    # model/generation.py 내부
+    openai.api_key = "sk-..."  # 본인의 OpenAI Key 입력
+    ```
+
+  * **Google Search API Key 설정:** `model/google.py`
+
+    ```python
+    # model/google.py 내부
+    google_api_key = "..."     # Google Search API Key 입력
+    search_engine_id = "..."             # Custom Search Engine ID 입력
+    ```
+
+**4. 서비스 실행**
+
+```bash
+streamlit run app.py
 ```
 
 <br>
@@ -102,7 +161,7 @@ LawChain/
 ## 🏗️ 5. Architecture Overview
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/3f91c6fd-25b4-4c05-94b0-2f9dc9dc4703" width="85%" style="border-radius: 12px; border: 1px solid #e5e5e5;" />
+  <img src="https://github.com/user-attachments/assets/3f91c6fd-25b4-4c05-94b0-2f9dc9dc4703" width="100%" style="border-radius: 12px; border: 1px solid #e5e5e5;" />
 </div>
 
 <br>
@@ -134,4 +193,3 @@ LawChain/
 
 <br>
 
----
