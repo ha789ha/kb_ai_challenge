@@ -66,6 +66,21 @@
 
 <br>
 
-
+## 4. 프로젝트 구조
+```bash
+bash
+LawChain/
+├── app.py                  # Streamlit 메인 실행 파일 (Front-end & Agent Orchestration)
+├── crawling_data/          # 금융감독원 판례 및 네이버 eXpert 크롤링 데이터 수집
+├── pre_processing/         # 데이터 정제 및 Query Rewriting 로직
+├── summary/                # 판례 요약(Summarizing Agent) 및 텍스트 데이터 처리
+├── db/                     # 정형 데이터(Metadata) 저장소
+├── faiss/                  # 의미 기반 검색을 위한 벡터 데이터베이스 (Vector DB)
+├── model/                  # LLM 모델 설정 및 API 핸들러
+├── report_layout/          # 최종 민원 보고서 생성 템플릿 및 레이아웃 설정
+├── .streamlit/             # Streamlit UI/UX 테마 설정 (config.toml)
+└── requirements.txt        # 프로젝트 의존성 라이브러리 목록
+```
+## 5. 아키텍처
 
 
