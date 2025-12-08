@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<title>법적 사건 분석 보고서</title>
+<style>
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 210mm;    /* A4 가로 */
+    height: 297mm;   /* A4 세로 */
+    box-sizing: border-box;
+  }
+  
+  .report {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 0;  /* 여백 없앰 */
+    box-sizing: border-box;
+    margin: auto;
+  }
+  /* 필요하면 섹션 등 여백도 줄이기 */
+  section {
+    margin-bottom: 0;
+    padding: 0;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0; padding: 0; background: #fff; color: #222;
+  }
+  .report {
+    width: 210mm; min-height: 297mm; padding: 20mm; margin: auto; box-sizing: border-box;
+  }
+  header {
+    border-bottom: none;
+    /* 또는 border-bottom: 0; */
+    padding-bottom: 8mm; /* 필요하면 유지 */
+    margin-bottom: 8mm;  /* 필요하면 유지 */
+  }
+  header h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 25px;    /* 기존 24px → 36px으로 키움 */
+    margin: 0;
+    text-align: center; /* 가운데 정렬 */
+    font-weight: 700;   /* 더 굵게 */
+  }
+  header .meta {
+    margin-top: 5mm; font-size: 14px; color: #555;
+  }
+  section { margin-bottom: 7mm; }
+  h2 {
+    font-family: 'Noto Serif KR', serif; font-size: 18px; margin-bottom: 4mm;
+    padding-bottom: 2mm; border-bottom: 1px solid #000;
+  }
+  ul.bullet {
+    list-style-type: "■ "; padding-left: 18px; font-size: 14px; line-height: 1.7; margin: 0;
+  }
+  ul.bullet li {
+    margin-bottom: 2px;
+  }
+
+  .compare-box {
+    flex: 1; min-width: 0;
+  }
+  .compare-box h3 {
+    display: inline-block;        /* 텍스트 크기에 딱 맞게 박스 */
+    padding: 4px 12px;            /* 박스 안 여백 */
+    border: 1px solid #000;       /* 테두리 */
+    border-radius: 4px;           /* 모서리 둥글게 (선택) */
+    background-color: #f8f4f4;    /* 연한 배경색 (선택) */
+    margin-bottom: 10px;          /* 아래 공간 확보 */
+  }
+  footer {
+    border-top: 1px solid #000; margin-top: 10mm; padding-top: 3mm;
+    font-size: 12px; color: #555; text-align: right;
+  }
+  @media print {
+    body { background: #fff; }
+    .report { box-shadow: none; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="report">
+  <header>
+    <h1>법적 사건 분석 보고서</h1>
+    <div class="meta">작성일: <span id="date"></span></div>
+  </header>
+
+  <section>
+    <h2>Ⅰ. 판례 기반 내 사건 정리</h2>
+    <ul id="판례기반_내_사건_정리" class="bullet"></ul>
+  </section>
+
+  <section>
+    <h2>Ⅱ. 유사 판례 정리</h2>
+    <ul id="유사_판례_정리" class="bullet"></ul>
+  </section>
+
+  <section>
+    <h2>Ⅲ. 공통점 및 차이점</h2>
+    <div class="compare-container">
+      <div class="compare-box">
+        <h3>공통점</h3>
+        <ul id="공통점" class="bullet"></ul>
+      </div>
+      <div class="compare-box">
+        <h3>차이점</h3>
+        <ul id="차이점" class="bullet"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ⅳ. 고려해야 할 쟁점</h2>
+    <ul id="고려해봐야_할_쟁점" class="bullet"></ul>
+  </section>
+
+  <section>
+    <h2>Ⅴ. 예상 결과</h2>
+    <ul id="예상_결과" class="bullet"></ul>
+  </section>
+</div>
+
+<script>
+  // JSON 데이터 변수에 그대로 넣기 (복사해서 쓰세요)
+  const data = {{ json_data | safe }};
+
+  function fillList(id, arr) {
+    const ul = document.getElementById(id);
+    arr.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+  }
+
+  fillList("판례기반_내_사건_정리", data["판례기반_내_사건_정리"]);
+  fillList("유사_판례_정리", data["유사_판례_정리"]);
+  fillList("공통점", data["공통점"]);
+  fillList("차이점", data["차이점"]);
+  fillList("고려해봐야_할_쟁점", data["고려해봐야_할_쟁점"]);
+  fillList("예상_결과", data["예상_결과"]);
+
+  document.getElementById('date').innerText = new Date().toLocaleDateString('ko-KR');
+</script>
+</body>
+</html>
