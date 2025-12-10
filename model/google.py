@@ -29,8 +29,7 @@ def get_keywords_from_query(query: str, generation_model: Gpt) -> list:
     return keywords
 
 def get_google_results(keywords: list, num_results=2):
-    google_api_key = 'YOUR_API_KEY'
-    search_engine_id = ''
+
 
     search_query = " ".join(keywords)  # 키워드 문자열 병합
     encoded_query = urllib.parse.quote(search_query)
